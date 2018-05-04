@@ -11,7 +11,7 @@ def send_async_email(app, msg):
         mail.send(msg)
 
 
-def send_email(to, subject, template, test_email=False, reply_to=None,
+def send_email(to, subject, template, reply_to=None,
                **kwargs):
     """Send email function."""
     app = current_app._get_current_object()
@@ -19,9 +19,9 @@ def send_email(to, subject, template, test_email=False, reply_to=None,
                   sender=app.config['MAIL_SENDER'], recipients=[to],
                   reply_to=reply_to)
     msg.body = render_template(
-        template + '.txt', test_email=test_email, **kwargs)
+        template + '.txt', **kwargs)
     msg.html = render_template(
-        template + '.html', test_email=test_email, **kwargs)
+        template + '.html', **kwargs)
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
     return thr
