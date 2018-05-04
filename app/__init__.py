@@ -8,12 +8,14 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_mail import Mail
 from config import config
 
 db = SQLAlchemy()
 bootstrap = Bootstrap()
 moment = Moment()
 migrate = Migrate()
+mail = Mail()
 
 
 def create_app(config_name):
@@ -29,6 +31,7 @@ def create_app(config_name):
     bootstrap.init_app(app)
     moment.init_app(app)
     migrate.init_app(app, db)
+    mail.init_app(app)
 
     # import blueprint
     from .errors import errors as errors_blueprint
